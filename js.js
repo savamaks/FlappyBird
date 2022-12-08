@@ -11,7 +11,6 @@ let click = true;
 const posLine = (elem) => {
     let box = elem.getBoundingClientRect()
     return{
-        top: box.top,
         left: box.left,
         width: box.width,
         height: box.height,
