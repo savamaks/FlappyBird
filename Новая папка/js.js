@@ -81,6 +81,7 @@ const render = () => {
         width: sizeBird[0],
         height: sizeBird[1],
     };
+    console.log()
     // будет расположена на Canvas
     const birdResult = {
         x: canvas.width / 2 - sizeBird[0] / 2,
