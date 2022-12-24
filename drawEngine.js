@@ -1,6 +1,5 @@
 class DrawEngine {
-    constructor() {
-    }
+    constructor() {}
     drawImage({ spriteSheet, image, x, y, width, height }) {}
     clear() {}
 }
@@ -14,8 +13,6 @@ class CanvasDrawEngine extends DrawEngine {
     drawImage({ spriteSheet, x, y, width, height, xx }) {
         super.drawImage({ spriteSheet, x, y, width, height });
         this.clear();
-
-        
 
         this._ctx.drawImage(
             spriteSheet,
@@ -54,37 +51,70 @@ class PipeDrawEngine extends DrawEngine {
         this._ctx = this._canvas.getContext("2d");
     }
 
-    drawImage({ spriteSheet, pipeUp, pipeDown, x, y, width, height,xx }) {
+    drawImage({ spriteSheet, pipeUp, pipeDown, x, y, width, height, backgroudX, upPipe, downPipe }) {
         super.drawImage({ spriteSheet, x, y, width, height });
 
-        //        
-                this._ctx.drawImage(
-                    spriteSheet,
+        this._ctx.drawImage(
+            spriteSheet,
 
-                    pipeUp.x,
-                    pipeUp.y,
-                    pipeUp.width,
-                    pipeUp.height,
+            pipeUp.x,
+            pipeUp.y,
+            pipeUp.width,
+            pipeUp.height,
 
-                    xx + this._canvas.width,
-                    -100,
-                    pipeUp.width,
-                    pipeUp.height
-                );
-                this._ctx.drawImage(
-                    spriteSheet,
+            backgroudX + this._canvas.width,
+            upPipe,
+            pipeUp.width,
+            pipeUp.height
+        );
+        this._ctx.drawImage(
+            spriteSheet,
 
-                    pipeDown.x,
-                    pipeDown.y,
-                    pipeDown.width,
-                    pipeDown.height,
+            pipeDown.x,
+            pipeDown.y,
+            pipeDown.width,
+            pipeDown.height,
 
-                    xx + this._canvas.width,
-                    300,
-                    pipeDown.width,
-                    pipeDown.height
-                );
+            backgroudX + this._canvas.width,
+            downPipe,
+            pipeDown.width,
+            pipeDown.height,
+            console.log(upPipe + pipeUp.height)
+
+        );
     }
+
+    // drawImageTwo({ spriteSheet, pipeUp, pipeDown, x, y, width, height, backgroudX }) {
+    //     super.drawImage({ spriteSheet, x, y, width, height });
+
+    //     this._ctx.drawImage(
+    //         spriteSheet,
+
+    //         pipeUp.x,
+    //         pipeUp.y,
+    //         pipeUp.width,
+    //         pipeUp.height,
+
+    //         50,
+    //         0,
+    //         pipeUp.width,
+    //         pipeUp.height
+    //     );
+    //     this._ctx.drawImage(
+    //         spriteSheet,
+
+    //         pipeDown.x,
+    //         pipeDown.y,
+    //         pipeDown.width,
+    //         pipeDown.height,
+
+    //        50,
+    //         450,
+    //         pipeDown.width,
+    //         pipeDown.height
+    //     );
+
+    // }
 }
 
 class BirdDrawEngine extends DrawEngine {
@@ -107,8 +137,9 @@ class BirdDrawEngine extends DrawEngine {
             x, // положение
             y,
             width,
-            height
+            height,
         );
+
     }
     clear() {
         super.clear();

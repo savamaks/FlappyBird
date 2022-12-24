@@ -29,6 +29,7 @@ class Game {
     }
 
     reset() {
+        console.log('reset')
         this._score = 0;
         this._backgroud = new Background({
             x: this._config.canvas.x,
@@ -60,6 +61,7 @@ class Game {
             gravity: this._config.gravity,
             flapSpeed: this._config.bird.flapSpeed,
         });
+        this._gameOver = new GameOver()
     }
 
     update(delta) {
@@ -84,7 +86,7 @@ class Game {
         if (this._playing) {
             this._drawEngine.clear();
             this.draw();
-
+            this._gameOver.gameOver(this._bird.x, this._bird.y, this._pipes.x, this._pipes.y)
             this._lastUpdate = now;
             requestAnimationFrame(this._loop.bind(this));
         }
@@ -99,14 +101,18 @@ class Game {
 
     }
 
-    button(delta) {
+    button() {
         document.addEventListener("click", () => {
-            this._bird.flap(delta);
+            this._bird.flap();
         });
     }
     gameOver() {
         this._playing = false;
         console.log(`Game Over ${this._score}`);
+    }
+
+    coords(x,y){
+        console.log(x,y)
     }
 }
 

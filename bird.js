@@ -24,11 +24,10 @@ class Bird {
         this._spriteSheet = spiteSheet;
         this._birdDrawEngine = birdDrawEngine;
         this._game = game;
-        this._flapSpeed = flapSpeed
+        this._flapSpeed = flapSpeed;
     }
 
     draw() {
-        
         this._birdDrawEngine.drawImage({
             spriteSheet: this._spriteSheet,
             image: this._frames[this._frameIdx],
@@ -40,28 +39,29 @@ class Bird {
     }
 
     update(delta) {
-
         this.speed += this._gravity * delta;
+
         this.y += this.speed * delta;
+
         if (this.y < 0) {
             this.y = 0;
         }
 
-        if (this.y + this.height > this._game._canvas.height) {
-            console.log('game')
+        if (this.y > this._game._canvas.height) {
+            console.log("game");
             this._game.gameOver();
         }
     }
-    updateWings(delta){
-        this._frameIdx = (this._frameIdx + Math.ceil(delta)) % 4;
-
+    updateWings(delta) {
+        if (this.speed <= 0) {
+            this._frameIdx = (this._frameIdx + Math.ceil(delta)) % 4;
+        } else {
+            this._frameIdx = 0;
+        }
     }
 
-    flap(delta) {
-
+    flap() {
         this.speed = -this._flapSpeed;
-
-
     }
 }
 

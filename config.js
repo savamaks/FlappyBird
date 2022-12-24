@@ -25,7 +25,7 @@ class Config {
         width: 35,
         height: 36,
 
-        flapSpeed: 100,
+        flapSpeed: 82,
         
         frames: [
             {
