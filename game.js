@@ -9,9 +9,8 @@ class Game {
         this._spriteSheet;
         this._resourceLoader = new ResourceLoader();
         this._drawEngine = new CanvasDrawEngine({ canvas: this._canvas });
-        this._pipeDrawEngine = new PipeDrawEngine({ canvas: this._canvas });
-        this._birdDrawEngine = new BirdDrawEngine({ canvas: this._canvas });
-
+        this.scoreCounter = true;
+        this.oneStart = true;
         // this._inputHandler = new MouseInputHandler({
         //     left: ({ x, y }) => {
         //         console.log('ok')
@@ -29,25 +28,32 @@ class Game {
     }
 
     reset() {
-        console.log('reset')
         this._score = 0;
-        this._backgroud = new Background({
-            x: this._config.canvas.x,
-            y: this._config.canvas.y,
-            width: this._config.canvas.width,
-            height: this._config.canvas.height,
+        this._background = new Background({
+            x: this._config.background.x,
+            y: this._config.background.y,
+            image: this._config.background,
             spiteSheet: this._spriteSheet,
             drawEngine: this._drawEngine,
             game: this,
         });
         this._pipes = new Pipes({
-            x: this._config.pipes.x,
-            y: this._config.pipes.y,
             frames: this._config.pipes.frames,
             spiteSheet: this._spriteSheet,
-            pipeDrawEngine: this._pipeDrawEngine,
+            drawEngine: this._drawEngine,
+            canvas: this._config.canvas,
             game: this,
-        })
+        });
+
+        this._scoreTable = new ScoreTable({
+            x: this._config.score.x,
+            y: this._config.score.y,
+            numbers: this._config.score.numbers,
+            spiteSheet: this._spriteSheet,
+            drawEngine: this._drawEngine,
+            score: this._score,
+            game: this,
+        });
 
         this._bird = new Bird({
             x: this._config.bird.x,
@@ -56,12 +62,11 @@ class Game {
             height: this._config.bird.height,
             frames: this._config.bird.frames,
             spiteSheet: this._spriteSheet,
-            birdDrawEngine: this._birdDrawEngine,
+            birdDrawEngine: this._drawEngine,
             game: this,
             gravity: this._config.gravity,
             flapSpeed: this._config.bird.flapSpeed,
         });
-        this._gameOver = new GameOver()
     }
 
     update(delta) {
@@ -71,11 +76,11 @@ class Game {
     }
 
     draw() {
-        this._backgroud.draw();
+        // console.log(this._score);
+        this._background.draw();
         this._pipes.draw();
-
         this._bird.draw();
-
+        this._scoreTable.draw();
     }
     _loop() {
         const now = Date.now();
@@ -86,7 +91,7 @@ class Game {
         if (this._playing) {
             this._drawEngine.clear();
             this.draw();
-            this._gameOver.gameOver(this._bird.x, this._bird.y, this._pipes.x, this._pipes.y)
+
             this._lastUpdate = now;
             requestAnimationFrame(this._loop.bind(this));
         }
@@ -98,27 +103,82 @@ class Game {
         this._lastUpdate = Date.now();
         this.reset();
         this._loop();
-
     }
 
     button() {
         document.addEventListener("click", () => {
-            this._bird.flap();
+            if (!this.oneStart) {
+                this._bird.flap();
+            }
+            if (!this._playing && this.oneStart) {
+                this.oneStart = false;
+                this.start();
+            }
         });
     }
     gameOver() {
+
         this._playing = false;
         console.log(`Game Over ${this._score}`);
+
+        this._gameOver = new GameOver({
+            x: this._config.gameOver.x,
+            y: this._config.gameOver.y,
+            frames: this._config.gameOver.frames,
+            tableScore: this._config.score.tableScore,
+            tableScoreNumber: this._config.score.tableScoreNumber,
+            spiteSheet: this._spriteSheet,
+            drawEngine: this._drawEngine,
+            game: this,
+        });
+        // this._gameOver.drawScore();
+        this._gameOver.draw();
+        this._scoreTable.drawScoreGameOver()
+
+       
+    }
+    // получение координат птички
+    coordsBird(x, y) {
+        // console.log(x),
+        (this.coordBirdX = x), (this.coordBirdY = y);
     }
 
-    coords(x,y){
-        console.log(x,y)
+    // условия прохождения через трубу
+
+    coords(upPipe, downPipe, nextX) {
+        // console.log(-nextX, this._config.bird.x + this._config.bird.width);
+        if (
+            -nextX > this._config.bird.x + this._config.bird.width &&
+            this.scoreCounter
+        ) {
+            
+            this._score += 1;
+            this._scoreTable.localMemory(this._score)
+            this.scoreCounter = false;
+        }
+
+        if (
+            -nextX > this.coordBirdX &&
+            -nextX - 55 < this.coordBirdX + this._config.bird.width
+        ) {
+            // console.log(-nextX,'>', this.coordBirdX, -nextX - 55, '<',this.coordBirdX + this._config.bird.width)
+
+            if (this.coordBirdY < upPipe) {
+                // console.log(this.coordBirdY, upPipe)
+                this.gameOver();
+            }
+
+            if (this.coordBirdY + this._config.bird.height > downPipe) {
+            
+                this.gameOver();
+            }
+        } else {
+        }
     }
 }
 
 let game = new Game();
-
-game.start();
+game.button();
 
 // class Game {
 //     constructor() {

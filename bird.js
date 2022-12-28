@@ -22,13 +22,13 @@ class Bird {
         this._frames = frames;
         this._frameIdx = 0;
         this._spriteSheet = spiteSheet;
-        this._birdDrawEngine = birdDrawEngine;
+        this._drawEngine = birdDrawEngine;
         this._game = game;
         this._flapSpeed = flapSpeed;
     }
 
     draw() {
-        this._birdDrawEngine.drawImage({
+        this._drawEngine.drawImage({
             spriteSheet: this._spriteSheet,
             image: this._frames[this._frameIdx],
             x: this.x,
@@ -36,6 +36,8 @@ class Bird {
             width: this.width,
             height: this.height,
         });
+        // console.log(this.x,this.y)
+        this._game.coordsBird(this.x,this.y)
     }
 
     update(delta) {
@@ -52,6 +54,7 @@ class Bird {
             this._game.gameOver();
         }
     }
+    
     updateWings(delta) {
         if (this.speed <= 0) {
             this._frameIdx = (this._frameIdx + Math.ceil(delta)) % 4;

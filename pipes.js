@@ -1,62 +1,75 @@
 class Pipes {
-    constructor({ x, y, frames, spiteSheet, pipeDrawEngine, game }) {
+    constructor({ x, y, frames, spiteSheet, drawEngine, canvas, game }) {
         this.x = x;
         this.y = y;
-        this.index = 0.3;
-        this.speed = 4.;
-        this.backgroudX = 0;
-
+        this._index = 0.3;
+        this._speed = 3;
+        this._nextX = 0;
+        this._canvas = canvas
         this._frames = frames;
         this._frameIdx = 0;
         this._spriteSheet = spiteSheet;
-        this._pipeDrawEngine = pipeDrawEngine;
+        this._drawEngine = drawEngine;
         this._game = game;
-        this.pipe = true
+        this._nextPipe = true;
     }
 
+    // отрисовка труб
     draw() {
         this.update();
-        
-        this._pipeDrawEngine.drawImage({
+        // console.log(this._nextX + this._game._config.canvas.width)
+        this._drawEngine.drawImage({
+            x:this._newX,
+            y: this._upPipeY,
             spriteSheet: this._spriteSheet,
-            pipeUp: this._frames[0],
-            pipeDown: this._frames[1],
-            x: this.x,
-            y: this.y,
-            width: this.width,
-            height: this.height,
-            backgroudX: this.backgroudX,
-            upPipe:this.upPipe,
-            downPipe:this.downPipe,
+            image: this._frames[0],        
+            width: this._frames[0].width,
+            height: this._frames[0].height,
+        });
+
+
+
+        this._drawEngine.drawImage({
+            x:this._newX ,
+            y: this._downPipeY,
+            spriteSheet: this._spriteSheet,
+            image: this._frames[1],        
+            width: this._frames[1].width,
+            height: this._frames[1].height,
         });
     }
-
+// движение труб
     update() {
-        if(this.pipe){
-            this.upPipe =  Math.floor(Math.random() * (-50 - (-200)) + (-200))
-            this.downPipe = (this._game._config.bird.height * 5) + (this._game._canvas.width - (-this.upPipe))
-            console.log(this.upPipe, this.downPipe)
+        if (this._nextPipe) {
+            this.heightPipe();
+            this._game.scoreCounter = true
         }
-        this.index += 0.3;
-        this.backgroudX = -((this.index * this.speed) %(this._game._canvas.width + 50)
-        );
-        this.pipe = false
-        if (this.backgroudX < -336) {
-            this.pipe = true
+
+        this._index += 0.3;
+        this._nextX = -((this._index * this._speed) % (this._game._canvas.width + 50));
+        this._newX = this._nextX + this._canvas.width
+        this._nextPipe = false;
+
+        if (this._nextX < -336) {
+            this._nextPipe = true;
         }
+
+
+
+        this._game.coords(this._upPipeY + this._frames[0].height, this._downPipeY, this._nextX)
     }
 
-    heightPipe(){
-        this.upPipe =  Math.floor(Math.random() * (-50 - (-200)) + (-200))
-        this.downPipe = (this._game._config.bird.height * 5) + (this._game._canvas.width - (-this.upPipe))
+    // получение новых координат труб
+    heightPipe() {
+        this._upPipeY = Math.floor(Math.random() * (-50 - -200) + -200);
+        this._downPipeY =
+            (this._game._config.bird.height * 5)  + this._upPipeY + this._frames[0].height;
+
     }
 
+    coords(){
 
-
-
-
-
-
+    }
     // drawTwoPipe() {
     //     this._pipeDrawEngine.drawImageTwo({
     //         spriteSheet: this._spriteSheet,
@@ -66,7 +79,7 @@ class Pipes {
     //         y: this.y,
     //         width: this.width,
     //         height: this.height,
-    //         xx: (this.backgroudX + 200),
+    //         xx: (this._nextX + 200),
     //     });
     // }
 }
