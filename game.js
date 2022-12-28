@@ -114,6 +114,15 @@ class Game {
                 this.oneStart = false;
                 this.start();
             }
+            document.addEventListener("touchstart", () => {
+            if (!this.oneStart) {
+                this._bird.flap();
+            }
+            if (!this._playing && this.oneStart) {
+                this.oneStart = false;
+                this.start();
+            }
+        });
         });
     }
     gameOver() {
