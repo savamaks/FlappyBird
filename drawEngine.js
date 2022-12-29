@@ -12,7 +12,6 @@ class CanvasDrawEngine extends DrawEngine {
     }
     drawImage({ x, y, spriteSheet, image, width, height }) {
         super.drawImage({ spriteSheet, x, y, width, height });
-
         this._ctx.drawImage(
             spriteSheet,
 

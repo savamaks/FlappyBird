@@ -19,13 +19,20 @@ class Config {
     background = {
         x: 0,
         y: 0,
-        width: 431,
-        height: 510,
-    }
+
+        frames: [
+            {
+                x: 0,
+                y: 0,
+                width: 431,
+                height: 510,
+            },
+        ],
+    };
 
     bird = {
         x: 130,
-        y: 50,
+        y: 120,
         width: 34,
         height: 30,
 
@@ -78,6 +85,20 @@ class Config {
             },
         ],
     };
+    bottomLine = {
+        x: 0,
+        y: 480,
+
+        frames: [
+            {
+                x: 581,
+                y: 0,
+                width: 431,
+                height: 110,
+            },
+        ],
+    };
+
     score = {
         x: 131,
         y: 10,
@@ -153,7 +174,6 @@ class Config {
                 height: 122,
             },
         ],
-        
     };
 
     gameOver = {
@@ -165,6 +185,38 @@ class Config {
                 y: 118,
                 width: 202,
                 height: 52,
+            },
+        ],
+    };
+
+    restart = {
+        x: 95,
+        y: 300,
+        frames: [
+            {
+                x: 707,
+                y: 236,
+                width: 114,
+                height: 70,
+            },
+        ],
+    };
+
+    prelaunch = {
+        x: 90,
+        y: 180,
+        frames: [
+            {
+                x: 585,
+                y: 182,
+                width: 113,
+                height: 100,
+            },
+            {
+                x: 585,
+                y: 115,
+                width: 200,
+                height: 62,
             },
         ],
     };

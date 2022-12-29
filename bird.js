@@ -28,6 +28,7 @@ class Bird {
     }
 
     draw() {
+
         this._drawEngine.drawImage({
             spriteSheet: this._spriteSheet,
             image: this._frames[this._frameIdx],
@@ -49,12 +50,12 @@ class Bird {
             this.y = 0;
         }
 
-        if (this.y > this._game._canvas.height) {
+        if (this.y >= this._game._canvas.height - this.height) {
             console.log("game");
             this._game.gameOver();
         }
     }
-    
+
     updateWings(delta) {
         if (this.speed <= 0) {
             this._frameIdx = (this._frameIdx + Math.ceil(delta)) % 4;

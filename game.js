@@ -32,7 +32,7 @@ class Game {
         this._background = new Background({
             x: this._config.background.x,
             y: this._config.background.y,
-            image: this._config.background,
+            image: this._config.background.frames,
             spiteSheet: this._spriteSheet,
             drawEngine: this._drawEngine,
             game: this,
@@ -42,6 +42,7 @@ class Game {
             spiteSheet: this._spriteSheet,
             drawEngine: this._drawEngine,
             canvas: this._config.canvas,
+            bottomLine: this._config.bottomLine,
             game: this,
         });
 
@@ -78,6 +79,7 @@ class Game {
     draw() {
         // console.log(this._score);
         this._background.draw();
+
         this._pipes.draw();
         this._bird.draw();
         this._scoreTable.draw();
@@ -94,11 +96,34 @@ class Game {
 
             this._lastUpdate = now;
             requestAnimationFrame(this._loop.bind(this));
+        } else {
+            this._gameOver = new GameOver({
+                x: this._config.gameOver.x,
+                y: this._config.gameOver.y,
+                frames: this._config.gameOver.frames,
+                tableScore: this._config.score.tableScore,
+                tableScoreNumber: this._config.score.tableScoreNumber,
+                restart: this._config.restart,
+                spiteSheet: this._spriteSheet,
+                drawEngine: this._drawEngine,
+                game: this,
+            });
+            this._gameOver.restartButton(e)
+
+            // this._gameOver.drawScore();
+            this._gameOver.draw();
+            this._scoreTable.drawScoreGameOver();
+
+
+            // //перезапуск игры через 2 сек
+            // setTimeout(() => {
+            //     this.oneStart = true
+            //     this._gameOver.restart()
+            // }, 2000);
         }
     }
 
-    async start() {
-        await this.prepare();
+    start() {
         this._playing = true;
         this._lastUpdate = Date.now();
         this.reset();
@@ -115,27 +140,47 @@ class Game {
                 this.start();
             }
         });
+        document.addEventListener("touchstart", () => {
+            if (!this.oneStart) {
+                this._bird.flap();
+            }
+            if (!this._playing && this.oneStart) {
+                this.oneStart = false;
+                this.start();
+            }
+        });
+        // document.addEventListener("keyup", () => {
+        //     location.reload()
+        // });
     }
-    gameOver() {
-
-        this._playing = false;
-        console.log(`Game Over ${this._score}`);
-
-        this._gameOver = new GameOver({
-            x: this._config.gameOver.x,
-            y: this._config.gameOver.y,
-            frames: this._config.gameOver.frames,
-            tableScore: this._config.score.tableScore,
-            tableScoreNumber: this._config.score.tableScoreNumber,
+    async prelaunch() {
+        await this.prepare();
+        this._background = new Background({
+            x: this._config.background.x,
+            y: this._config.background.y,
+            image: this._config.background.frames,
             spiteSheet: this._spriteSheet,
             drawEngine: this._drawEngine,
             game: this,
         });
-        // this._gameOver.drawScore();
-        this._gameOver.draw();
-        this._scoreTable.drawScoreGameOver()
 
-       
+        this._prelaunch = new Prelaunch({
+            x: this._config.prelaunch.x,
+            y: this._config.prelaunch.y,
+            image: this._config.prelaunch.frames,
+            spiteSheet: this._spriteSheet,
+            drawEngine: this._drawEngine,
+            game: this,
+        });
+        this._background.draw();
+        this._prelaunch.draw();
+        this.button();
+        // requestAnimationFrame(this.prelaunch.bind(this));
+    }
+
+    gameOver() {
+
+        this._playing = false;
     }
     // получение координат птички
     coordsBird(x, y) {
@@ -146,14 +191,12 @@ class Game {
     // условия прохождения через трубу
 
     coords(upPipe, downPipe, nextX) {
-        // console.log(-nextX, this._config.bird.x + this._config.bird.width);
         if (
             -nextX > this._config.bird.x + this._config.bird.width &&
             this.scoreCounter
         ) {
-            
             this._score += 1;
-            this._scoreTable.localMemory(this._score)
+            this._scoreTable.localMemory(this._score);
             this.scoreCounter = false;
         }
 
@@ -161,15 +204,11 @@ class Game {
             -nextX > this.coordBirdX &&
             -nextX - 55 < this.coordBirdX + this._config.bird.width
         ) {
-            // console.log(-nextX,'>', this.coordBirdX, -nextX - 55, '<',this.coordBirdX + this._config.bird.width)
-
             if (this.coordBirdY < upPipe) {
-                // console.log(this.coordBirdY, upPipe)
                 this.gameOver();
             }
 
             if (this.coordBirdY + this._config.bird.height > downPipe) {
-            
                 this.gameOver();
             }
         } else {
@@ -178,7 +217,7 @@ class Game {
 }
 
 let game = new Game();
-game.button();
+game.prelaunch();
 
 // class Game {
 //     constructor() {

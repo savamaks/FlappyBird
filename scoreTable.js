@@ -12,6 +12,7 @@ class ScoreTable {
     }
     draw() {
         //отрисовка верхнего числа
+
         this._drawEngine.drawImage({
             spriteSheet: this._spriteSheet,
             image: this._numbers[this._score],
@@ -52,6 +53,7 @@ class ScoreTable {
         }
 
         // отрисовка чисел в таблице
+
         this._drawEngine.drawImage({
             x: 210,
             y: 187,

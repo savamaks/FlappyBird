@@ -5,6 +5,7 @@ class GameOver {
         frames,
         tableScore,
         tableScoreNumber,
+        restart,
         spiteSheet,
         drawEngine,
         game,
@@ -15,7 +16,7 @@ class GameOver {
         this._frames = frames;
         this._tableScore = tableScore;
         this._tableScoreNumber = tableScoreNumber;
-
+        this._restart = restart
         this._frameIdx = 0;
 
         this._spriteSheet = spiteSheet;
@@ -31,6 +32,7 @@ class GameOver {
             width: this._frames[0].width,
             height: this._frames[0].height,
         });
+
         this._drawEngine.drawImage({
             x: 30,
             y: 150,
@@ -38,14 +40,29 @@ class GameOver {
             image: this._tableScore[0],
             width: this._tableScore[0].width,
             height: this._tableScore[0].height,
+        });
 
-
+        this._drawEngine.drawImage({
+            x:this._restart.x,
+            y:this._restart.y,
+            spriteSheet: this._spriteSheet,
+            image: this._restart.frames[0],
+            width: this._restart.frames[0].width,
+            height: this._restart.frames[0].height,
         });
       
     }
+    restart() {
+        this._game.prelaunch()   
+    }
 
-    drawScore() {
-        // console.log(this._drawEngine);
-        
+    restartButton(e){
+        document.addEventListener('mousedown', (e)=>{
+
+            // 360 382
+            if(e.pageX > 360 && e.pageX < 462  && e.pageY > 380 && e.pageY < 438 ){
+            console.log(e.pageX, e.pageY)
+            }
+        })
     }
 }

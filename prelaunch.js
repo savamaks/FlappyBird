@@ -1,4 +1,4 @@
-class Background {
+class Prelaunch {
     constructor({ x,y, image, spiteSheet, drawEngine, game }) {
         
         this._x = x;
@@ -20,10 +20,13 @@ class Background {
             width: this._image[0].width,
             height: this._image[0].height
         });
+        this._drawEngine.drawImage({
+            x: 50,
+            y: 50,
+            spriteSheet: this._spriteSheet,
+            image: this._image[1],
+            width: this._image[1].width,
+            height: this._image[1].height
+        });
     }
-
-    // update() {
-    //     this.index += 0.3;
-    //     this.backgroudX = -((this.index * this.speed) % this._game._canvas.width);
-    // }
 }
