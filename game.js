@@ -108,9 +108,8 @@ class Game {
                 drawEngine: this._drawEngine,
                 game: this,
             });
-            this._gameOver.restartButton(e)
+            this._gameOver.restartButton()
 
-            // this._gameOver.drawScore();
             this._gameOver.draw();
             this._scoreTable.drawScoreGameOver();
 

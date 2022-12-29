@@ -51,7 +51,6 @@ class Bird {
         }
 
         if (this.y >= this._game._canvas.height - this.height) {
-            console.log("game");
             this._game.gameOver();
         }
     }
