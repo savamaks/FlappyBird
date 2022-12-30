@@ -22,7 +22,6 @@ class Pipes {
         this._bottomLine = bottomLine;
         this._game = game;
         this._nextPipe = true;
-        this.j = 200;
     }
 
     draw() {
@@ -68,11 +67,7 @@ class Pipes {
     }
     // движение труб
     update() {
-        // if (this.j >= 0) {
-        //     this.j -= 1;
-        // }
-        // console.log(this.j);
-        // if (this.j < 0) {
+        
         if (this._nextPipe) {
             this.heightPipe();
             this._game.scoreCounter = true;

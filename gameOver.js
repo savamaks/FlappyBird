@@ -53,15 +53,22 @@ class GameOver {
       
     }
     restart() {
-        this._game.prelaunch()   
+        location.reload();
     }
 
-    restartButton(e){
-        document.addEventListener('mousedown', (e)=>{
+    restartButton(){
+        this.coordsCanvas = this._game._canvas.getBoundingClientRect()
+        
+        this._leftCoords = (this.coordsCanvas.left+(this.coordsCanvas.width/2))-(this._restart.frames[0].width/2)
+        this._rightCoords = (this.coordsCanvas.left+(this.coordsCanvas.width/2))+(this._restart.frames[0].width/2)
+        this._topCoords = (this.coordsCanvas.top +(this._restart.y))
+        this._bottomCoords = (this.coordsCanvas.top +this._restart.y + this._restart.frames[0].height)
 
-            // 360 382
-            if(e.pageX > 360 && e.pageX < 462  && e.pageY > 380 && e.pageY < 438 ){
-            console.log(e.pageX, e.pageY)
+
+        document.addEventListener('click', (e)=>{
+
+            if(e.pageX > this._leftCoords && e.pageX < this._rightCoords  && e.pageY >  this._topCoords && e.pageY < this._bottomCoords && !this._game._playing){
+            this.restart()
             }
         })
     }

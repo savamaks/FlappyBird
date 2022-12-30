@@ -7,13 +7,14 @@ header {
   width: 431px;
 }
 canvas{
+  /* width: 600px; */
   margin-top:50px;
   border: 1px solid black;
 }
-@media (max-width: 768px) {  
+/* @media (max-width: 768px) {  
   canvas{
     margin: 0;
-    width: 100vw;
-    height: 98vh;
+    width: 99vw;
+    height: 95vh;
   }
-}
+} */

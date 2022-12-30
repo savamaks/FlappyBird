@@ -1,21 +1,16 @@
 class Game {
     constructor() {
         this._config = new Config();
-        this._playing = false;
         this._canvas = document.getElementById("canvas");
         this._ctx = this._canvas.getContext("2d");
         this._canvas.width = this._config.canvas.width;
         this._canvas.height = this._config.canvas.height;
         this._spriteSheet;
         this._resourceLoader = new ResourceLoader();
-        this._drawEngine = new CanvasDrawEngine({ canvas: this._canvas });
+        this._drawEngine = new DrawEngine({ canvas: this._canvas });
+        this._playing = false;
         this.scoreCounter = true;
         this.oneStart = true;
-        // this._inputHandler = new MouseInputHandler({
-        //     left: ({ x, y }) => {
-        //         console.log('ok')
-        //     },
-        // });
     }
 
     async prepare() {
@@ -72,14 +67,11 @@ class Game {
 
     update(delta) {
         this._bird.updateWings(delta);
-
         this._bird.update(delta);
     }
 
     draw() {
-        // console.log(this._score);
         this._background.draw();
-
         this._pipes.draw();
         this._bird.draw();
         this._scoreTable.draw();
@@ -108,11 +100,10 @@ class Game {
                 drawEngine: this._drawEngine,
                 game: this,
             });
-            this._gameOver.restartButton()
+            this._gameOver.restartButton();
 
             this._gameOver.draw();
             this._scoreTable.drawScoreGameOver();
-
 
             // //перезапуск игры через 2 сек
             // setTimeout(() => {
@@ -133,33 +124,30 @@ class Game {
         document.addEventListener("click", () => {
             if (!this.oneStart) {
                 this._bird.flap();
+
             }
             if (!this._playing && this.oneStart) {
                 this.oneStart = false;
                 this.start();
+
             }
-            document.addEventListener("touchstart", () => {
-            if (!this.oneStart) {
-                this._bird.flap();
-            }
-            if (!this._playing && this.oneStart) {
-                this.oneStart = false;
-                this.start();
-            }
-        });
-        });
-        document.addEventListener("touchstart", () => {
-            if (!this.oneStart) {
-                this._bird.flap();
-            }
-            if (!this._playing && this.oneStart) {
-                this.oneStart = false;
-                this.start();
-            }
-        });
-        // document.addEventListener("keyup", () => {
-        //     location.reload()
-        // });
+    });
+
+            document.addEventListener("touch", () => {
+
+                if (!this.oneStart) {
+                    this._bird.flap();
+                }
+                if (!this._playing && this.oneStart) {
+                    this.oneStart = false;
+                    this.start();
+                }
+            });
+        
+    }
+
+    click(){
+        
     }
     async prelaunch() {
         await this.prepare();
@@ -180,14 +168,15 @@ class Game {
             drawEngine: this._drawEngine,
             game: this,
         });
+
+            // this.start();
+
         this._background.draw();
-        this._prelaunch.draw();
+        this._prelaunch.draw(); 
         this.button();
-        // requestAnimationFrame(this.prelaunch.bind(this));
     }
 
     gameOver() {
-
         this._playing = false;
     }
     // получение координат птички
@@ -199,13 +188,18 @@ class Game {
     // условия прохождения через трубу
 
     coords(upPipe, downPipe, nextX) {
+
+        console.log()
         if (
             -nextX > this._config.bird.x + this._config.bird.width &&
             this.scoreCounter
-        ) {
+        ) {            
             this._score += 1;
+            this._scoreTable.update(this._score);
             this._scoreTable.localMemory(this._score);
             this.scoreCounter = false;
+        } else{
+
         }
 
         if (
@@ -227,30 +221,4 @@ class Game {
 let game = new Game();
 game.prelaunch();
 
-// class Game {
-//     constructor() {
-//         this.__config = new _Config();
-//         this._resourceLoader = new ResourceLoader();
-//         this._canvasDrawEngine = new CanvasDrawEngine(this.__config);
-//     }
 
-//     async prepare() {
-//         this._spriteSheet = await this._resourceLoader.load({
-//             type: RESOURCE_TYPE.IMAGE,
-//             width: this.__config.spritesheet.width,
-//             height: this.__config.spritesheet.height,
-//             src: this.__config.spritesheet.src,
-//         });
-//         this.draw(this._spriteSheet)
-//     }
-
-//     draw(spriteSheet){
-//         this._canvasDrawEngine.draw(spriteSheet);
-//         window.requestAnimationFrame(this.draw.bind(this));
-
-//     }
-// }
-
-// const game = new Game();
-
-// game.prepare();
