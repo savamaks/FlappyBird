@@ -45,6 +45,23 @@ class Pipes {
             width: this._frames[1].width,
             height: this._frames[1].height,
         });
+this._drawEngine.drawImage({
+            x: this._newX +100,
+            y: this._upPipeY,
+            spriteSheet: this._spriteSheet,
+            image: this._frames[0],
+            width: this._frames[0].width,
+            height: this._frames[0].height,
+        });
+
+        this._drawEngine.drawImage({
+            x: this._newX +100,
+            y: this._downPipeY,
+            spriteSheet: this._spriteSheet,
+            image: this._frames[1],
+            width: this._frames[1].width,
+            height: this._frames[1].height,
+        });
 
         //отрисовка нижней границы
         this._drawEngine.drawImage({
