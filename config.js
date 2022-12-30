@@ -93,7 +93,7 @@ class Config {
             {
                 x: 581,
                 y: 0,
-                width: 431,
+                width: 338,
                 height: 110,
             },
         ],
