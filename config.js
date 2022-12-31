@@ -62,6 +62,7 @@ class Config {
                 y: 814,
                 width: 34,
                 height: 30,
+                
             },
         ],
     };

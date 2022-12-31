@@ -14,7 +14,6 @@ class ScoreTable {
     }
     draw() {
         //отрисовка верхнего числа
-        // console.log(this._arrScore)
 
         this._drawEngine.drawImage({
             spriteSheet: this._spriteSheet,
@@ -35,6 +34,7 @@ class ScoreTable {
             });
         }
     }
+
     localMemory(score) {
         this._score = score;
         if (this._score > localStorage.getItem("score")) {
@@ -50,8 +50,7 @@ class ScoreTable {
         if (localStorage.getItem("score") === null) {
             this._arrBestScore = this._arrScore;
         } else {
-
-            this._arrBestScore = localStorage.getItem("score");
+            this._arrBestScore = ("" + localStorage.getItem("score")).split("");
         }
 
         // отрисовка чисел в таблице
@@ -75,6 +74,7 @@ class ScoreTable {
             });
         }
 
+        //лучший результат
         this._drawEngine.drawImage({
             x: 210,
             y: 230,
@@ -83,7 +83,7 @@ class ScoreTable {
             width: 12,
             height: 18,
         });
-        if (this._score > 9) {
+        if (this._arrBestScore[1]) {
             this._drawEngine.drawImage({
                 x: 220,
                 y: 230,

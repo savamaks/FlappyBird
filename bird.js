@@ -37,7 +37,6 @@ class Bird {
             width: this.width,
             height: this.height,
         });
-        // console.log(this.x,this.y)
         this._game.coordsBird(this.x,this.y)
     }
 
@@ -67,34 +66,3 @@ class Bird {
         this.speed = -this._flapSpeed;
     }
 }
-
-// class Bird extends Entity {
-//     constructor(params) {
-//         super(params);
-//         this._flapSpeed = params.flapSpeed;
-//         this._physicsEngine = params.physicsEngine;
-//         this.falling = true;
-//     }
-
-//     update(entity, delta) {
-//         super.update(entity, delta);
-
-//         // this._physicsEngine.update(this, delta);
-
-//             if (entity.falling) {
-//                 entity.speed += this._gravity * delta;
-//                 entity.y += entity.speed * delta;
-//             }
-//         if (this.y < 0) {
-//             this.y = 0;
-//         }
-
-//         if (this.y + this.height >= this._game.height) {
-//             this._game.gameOver();
-//         }
-//     }
-
-//     flap() {
-//         this.speed = -this._flapSpeed;
-//     }
-// }

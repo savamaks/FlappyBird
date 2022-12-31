@@ -12,7 +12,7 @@ class Pipes {
         this.x = x;
         this.y = y;
         this._index = 0.3;
-        this._speed = 3;
+        this._speed = 4;
         this._nextX = 0;
         this._canvas = canvas;
         this._frames = frames;
@@ -67,8 +67,9 @@ class Pipes {
     }
     // движение труб
     update() {
-        
-        if (this._nextPipe) {
+
+        if (this._nextX > -2) {
+
             this.heightPipe();
             this._game.scoreCounter = true;
         }
@@ -81,7 +82,7 @@ class Pipes {
         this._newX = this._nextX + this._canvas.width;
         this._nextPipe = false;
 
-        if (this._nextX < -336) {
+        if (this._nextX  < -335) {
             this._nextPipe = true;
         }
 
@@ -101,17 +102,5 @@ class Pipes {
             this._frames[0].height;
     }
 
-    coords() {}
-    // drawTwoPipe() {
-    //     this._pipeDrawEngine.drawImageTwo({
-    //         spriteSheet: this._spriteSheet,
-    //         pipeUp: this._frames[0],
-    //         pipeDown: this._frames[1],
-    //         x: this.x,
-    //         y: this.y,
-    //         width: this.width,
-    //         height: this.height,
-    //         xx: (this._nextX + 200),
-    //     });
-    // }
+    
 }

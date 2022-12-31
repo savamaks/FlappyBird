@@ -105,11 +105,6 @@ class Game {
             this._gameOver.draw();
             this._scoreTable.drawScoreGameOver();
 
-            // //перезапуск игры через 2 сек
-            // setTimeout(() => {
-            //     this.oneStart = true
-            //     this._gameOver.restart()
-            // }, 2000);
         }
     }
 
@@ -169,7 +164,6 @@ class Game {
             game: this,
         });
 
-            // this.start();
 
         this._background.draw();
         this._prelaunch.draw(); 
@@ -181,7 +175,6 @@ class Game {
     }
     // получение координат птички
     coordsBird(x, y) {
-        // console.log(x),
         (this.coordBirdX = x), (this.coordBirdY = y);
     }
 
@@ -189,7 +182,6 @@ class Game {
 
     coords(upPipe, downPipe, nextX) {
 
-        console.log()
         if (
             -nextX > this._config.bird.x + this._config.bird.width &&
             this.scoreCounter
@@ -198,9 +190,7 @@ class Game {
             this._scoreTable.update(this._score);
             this._scoreTable.localMemory(this._score);
             this.scoreCounter = false;
-        } else{
-
-        }
+        } 
 
         if (
             -nextX > this.coordBirdX &&

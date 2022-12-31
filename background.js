@@ -21,9 +21,4 @@ class Background {
             height: this._image[0].height
         });
     }
-
-    // update() {
-    //     this.index += 0.3;
-    //     this.backgroudX = -((this.index * this.speed) % this._game._canvas.width);
-    // }
 }

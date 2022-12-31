@@ -12,6 +12,7 @@ class Prelaunch {
     }
 
     draw() {
+        //image tap
         this._drawEngine.drawImage({
             x: this._x,
             y: this._y,
@@ -20,6 +21,8 @@ class Prelaunch {
             width: this._image[0].width,
             height: this._image[0].height
         });
+
+        //get ready
         this._drawEngine.drawImage({
             x: 50,
             y: 50,
