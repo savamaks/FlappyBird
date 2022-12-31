@@ -46,6 +46,7 @@ class Pipes {
             height: this._frames[1].height,
         });
 
+
         //отрисовка нижней границы
         this._drawEngine.drawImage({
             x: this._nextX,
